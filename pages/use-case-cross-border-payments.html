@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cross-Border Payments & FX | Rayls</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--black:#111111;--white:#FFFFFF;--gray-dim:#888899;--yellow:#ECFB3E;--purple:#B49AFF;--card-bg:rgba(255,255,255,0.04);--card-border:rgba(255,255,255,0.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Rethink Sans',sans-serif;background:var(--black);color:var(--white);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(17,17,17,0.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06)}
+.nav-logo{text-decoration:none;display:flex;align-items:center;padding:4px 0}.nav-logo img{height:24px;width:auto;display:block}
+.nav-links{display:flex;gap:32px}.nav-links a{color:var(--gray-dim);font-size:14px;font-weight:500;text-decoration:none;transition:color 0.2s}.nav-links a:hover{color:var(--white)}.nav-links a.active{color:var(--yellow)}
+.nav-cta{background:var(--yellow);color:var(--black);padding:10px 24px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none;transition:all 0.2s}.nav-cta:hover{background:var(--white)}
+.btn-primary{background:var(--yellow);color:var(--black);padding:14px 32px;border-radius:8px;font-weight:700;font-size:15px;text-decoration:none;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px}.btn-primary:hover{background:var(--white);transform:translateY(-1px)}
+.btn-secondary{background:transparent;color:var(--white);padding:14px 32px;border-radius:8px;font-weight:600;font-size:15px;text-decoration:none;transition:all 0.2s;border:1px solid rgba(255,255,255,0.2)}.btn-secondary:hover{border-color:var(--purple);color:var(--purple)}
+.section-label{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--yellow);margin-bottom:16px}
+.section{padding:100px 48px;max-width:1280px;margin:0 auto}
+.divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--card-border),transparent);max-width:1280px;margin:0 auto}
+.sec-h2{font-size:clamp(24px,3vw,36px);font-weight:800;letter-spacing:-0.5px;margin-bottom:8px;line-height:1.2}
+.sec-sub{font-size:15px;color:var(--gray-dim);max-width:720px}
+.hero{padding:200px 48px 100px;max-width:1280px;margin:0 auto;position:relative}
+.hero::before{content:'';position:absolute;top:60px;left:50%;transform:translateX(-50%);width:700px;height:700px;background:radial-gradient(circle,rgba(236,251,62,0.06) 0%,transparent 70%);pointer-events:none}
+.hero-breadcrumb{font-size:13px;color:var(--gray-dim);margin-bottom:24px}.hero-breadcrumb a{color:var(--gray-dim);text-decoration:none}.hero-breadcrumb a:hover{color:var(--white)}
+.hero h1{font-size:clamp(44px,5.5vw,72px);font-weight:800;line-height:1.05;letter-spacing:-2px;margin-bottom:24px;max-width:900px;position:relative}
+.hero h1 em{font-style:normal;color:var(--yellow)}
+.hero p{font-size:20px;line-height:1.6;color:var(--gray-dim);max-width:680px;margin-bottom:48px}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap}
+.pill-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
+.pill{font-size:13px;font-weight:600;padding:8px 18px;border-radius:24px;border:1px solid var(--card-border);color:rgba(255,255,255,0.6)}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px}
+.compare-col{border-radius:16px;padding:36px}
+.compare-col.legacy{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06)}
+.compare-col.rayls{background:rgba(236,251,62,0.04);border:1px solid rgba(236,251,62,0.12)}
+.compare-col h3{font-size:18px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.compare-col.legacy h3{color:var(--gray-dim)}
+.compare-col.rayls h3{color:var(--yellow)}
+.compare-item{font-size:14px;line-height:1.7;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.6)}
+.compare-col.rayls .compare-item{color:rgba(255,255,255,0.75)}
+.compare-item:last-child{border-bottom:none}
+.features{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:48px}
+.feat{background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:32px;transition:border-color 0.3s}
+.feat:hover{border-color:rgba(236,251,62,0.2)}
+.feat-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.feat-icon svg{width:20px;height:20px}
+.feat:nth-child(1) .feat-icon{background:rgba(236,251,62,0.1)}
+.feat:nth-child(2) .feat-icon{background:rgba(180,154,255,0.1)}
+.feat:nth-child(3) .feat-icon{background:rgba(236,251,62,0.1)}
+.feat:nth-child(4) .feat-icon{background:rgba(180,154,255,0.1)}
+.feat h3{font-size:17px;font-weight:700;margin-bottom:10px;line-height:1.3}
+.feat p{font-size:14px;color:var(--gray-dim);line-height:1.6}
+.wf-outer{background:var(--card-bg);border:1px solid var(--card-border);border-radius:20px;padding:40px 32px;margin-top:48px}
+.wf-flow{max-width:720px;margin:0 auto}
+.wf-pn{background:rgba(180,154,255,0.05);border:1px solid rgba(180,154,255,0.15);border-radius:14px;padding:28px 24px}
+.wf-pc{background:rgba(236,251,62,0.05);border:1px solid rgba(236,251,62,0.15);border-radius:14px;padding:28px 24px}
+.wf-gov{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:28px 24px}
+.wf-env-title{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;text-align:center;margin-bottom:20px}
+.wf-pn .wf-env-title{color:var(--purple)}.wf-pc .wf-env-title{color:var(--yellow)}.wf-gov .wf-env-title{color:rgba(255,255,255,0.4)}
+.wf-step{display:flex;gap:16px;align-items:stretch}
+.wf-step-num{font-size:24px;font-weight:800;color:rgba(255,255,255,0.15);line-height:1;width:28px;flex-shrink:0;padding-top:14px}
+.wf-step-nodes{flex:1;display:flex;gap:10px}
+.wf-node{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:14px 16px;font-size:13px;line-height:1.5;color:rgba(255,255,255,0.7);flex:1}
+.wf-node strong{color:var(--white);font-weight:600}
+.wf-down-arr{text-align:center;padding:8px 0;font-size:18px;color:var(--gray-dim)}
+.wf-bridge-mid{display:flex;flex-direction:column;align-items:center;padding:16px 0}
+.wf-bridge-dot{width:56px;height:56px;border-radius:50%;border:2px solid rgba(236,251,62,0.25);display:flex;align-items:center;justify-content:center}
+.wf-bridge-dot span{font-size:9px;font-weight:700;color:var(--yellow);text-transform:uppercase;line-height:1.2;text-align:center}
+.wf-result{margin-top:8px;padding:24px 32px;border-radius:14px;background:rgba(236,251,62,0.06);border:1px solid rgba(236,251,62,0.2);text-align:center}
+.wf-result-label{font-size:12px;font-weight:700;color:var(--yellow);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}
+.wf-result-text{font-size:15px;color:rgba(255,255,255,0.75);line-height:1.6}
+.wf-phase-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:12px}
+.wf-stage-break{padding:20px 0;display:flex;align-items:center;gap:16px}
+.wf-stage-break .wf-stage-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(236,251,62,0.2),transparent)}
+.wf-stage-break .wf-stage-tag{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--yellow);white-space:nowrap;padding:6px 14px;border:1px solid rgba(236,251,62,0.2);border-radius:20px;background:rgba(236,251,62,0.04)}
+@media(max-width:600px){.wf-step-nodes{flex-direction:column}}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--card-border);border-radius:16px;overflow:hidden;margin-top:48px}
+.stat-card{background:var(--card-bg);padding:36px 24px;text-align:center}
+.stat-val{font-size:40px;font-weight:800;color:var(--yellow);line-height:1;margin-bottom:8px}
+.stat-lbl{font-size:14px;font-weight:600;color:var(--white);margin-bottom:6px}
+.stat-desc{font-size:12px;color:var(--gray-dim);line-height:1.5}
+.video-wrap{position:relative;width:100%;border-radius:16px;overflow:hidden;margin-top:48px;border:1px solid var(--card-border)}
+.video-thumb{display:block;position:relative;width:100%;cursor:pointer}
+.video-thumb img{width:100%;display:block;aspect-ratio:16/9;object-fit:cover;transition:filter 0.3s}
+.video-thumb:hover img{filter:brightness(0.7)}
+.video-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:72px;height:50px;transition:transform 0.2s}
+.video-thumb:hover .video-play{transform:translate(-50%,-50%) scale(1.1)}
+.video-play svg{width:100%;height:100%;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.4))}
+.cs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:48px}
+.cs-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:36px;text-decoration:none;color:var(--white);transition:all 0.3s;display:block}
+.cs-card:hover{border-color:rgba(236,251,62,0.25);transform:translateY(-3px)}
+.cs-badge{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border-radius:6px;display:inline-block;margin-bottom:14px;background:rgba(236,251,62,0.1);color:var(--yellow)}
+.cs-card h3{font-size:20px;font-weight:700;margin-bottom:10px;line-height:1.3}
+.cs-card p{font-size:14px;color:var(--gray-dim);line-height:1.6;margin-bottom:16px}
+.cs-link{font-size:14px;font-weight:600;color:var(--yellow)}
+.bottom-cta{text-align:center;padding:120px 48px;position:relative}
+.bottom-cta h2{font-size:clamp(28px,3.5vw,42px);font-weight:800;letter-spacing:-1px;margin-bottom:32px;line-height:1.2}
+.footer{padding:48px;text-align:center;border-top:1px solid var(--card-border)}.footer p{font-size:13px;color:var(--gray-dim)}.footer a{color:var(--gray-dim);text-decoration:none}.footer a:hover{color:var(--white)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+.anim{opacity:0}.anim.visible{animation:fadeUp 0.7s ease forwards}
+@media(max-width:900px){.nav{padding:16px 24px}.nav-links{display:none}.hero{padding:160px 24px 80px}.section{padding:80px 24px}.compare{grid-template-columns:1fr}.features{grid-template-columns:1fr 1fr}.stats{grid-template-columns:repeat(2,1fr)}.cs-grid{grid-template-columns:1fr}.bottom-cta{padding:80px 24px}}
+
+/* Related Use Cases Navigation */
+.rnav-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:32px}
+.rnav-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:14px;padding:24px;text-decoration:none;color:var(--white);transition:all 0.25s;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden}
+.rnav-card:hover{border-color:rgba(255,255,255,0.15);transform:translateY(-3px)}
+.rnav-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent);opacity:0;transition:opacity 0.25s}
+.rnav-card:hover::after{opacity:1}
+.rnav-num{font-size:28px;font-weight:800;line-height:1}
+.rnav-card h3{font-size:15px;font-weight:700;line-height:1.3}
+.rnav-card p{font-size:12px;color:var(--gray-dim);line-height:1.5}
+.rnav-link{font-size:13px;font-weight:700;margin-top:auto;padding-top:8px;transition:letter-spacing 0.2s}
+.rnav-card:hover .rnav-link{letter-spacing:0.5px}
+@media(max-width:900px){.rnav-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.rnav-grid{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+<nav class="nav"><a href="https://www.rayls.com" class="nav-logo"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAAA7CAYAAAA+XsUpAAAWMElEQVR42u1dabBcxXX+zsw8rYAQErvYDIhVgDHGYGGCLSxjg5fC2CCIMUUAY0wRbAeHgE3KYJOEhJhiSQBDsVSAYBmbBLOGxYhN7DsICYQMWkAghEDrezPz5cc95+m8Vved5c1bhKarbs2dmXu7b3ef02f7+lxBA4Wk6Om3AHwawI4AdgewIYAhAJYDeAnAEgCrAIwAsBTAIgBzAcwEsADAOwAWi0g50U4BQAEAAVRFhOiDQrIgIlWSWwGYBWCotilNVLcUwGIAswE8D+B+AI+IyPvaVrEv+7I2F5JFEamQvBXANwFUABSDy/YSkedtzvrr2aS3HQMwTpnlrwB8AcA2AFYCeBvAHAArAGwCYIL+Z+U9JaYZAF5U5pkJYK6ILIu0g1YTWIsZJFbmAbgNwGUi8pJvs80WaweDNE1YusrH/tuN5JkkHyH5rn7+lOQEkpuT/DzJc0g+SHIx1yxvkbyT5M9JHkByaIJZWtIP/dyK5Eptv8rmS5VkhWQ5qKeL5IUkh/l226XnnJK8VcerHBnbPdfKsSMpJIskS04Fs/8OIvkH18nbSR7q/u8guS/Jvyd5L8kVkYGZRfIKrUtC4u4nBqnUcVQj91aVOaw8RHKLNpOsQwySkC6lgJh3IHmJ6+yrJE8mOSS4dzuSp5F8NLFCP0XyWKu7t9KkDySITW45wiidev48yVE6TtJmj3WMQSLMUnTfdyE51XX6eZKHJ+49kOTvHMF2uvseJblfb5mkTgZZqc+Zd8wg+U4gLSqRuqwPN7daXWwzyCdAqrjvR5Gc7zr/3yQ30/+GBtJnIsnHHIEZEa4i+d3eEFoNBqno52t1qpnrkxxP8miSf8qRMPb8k9tM0maQpEQhuY0a6lb+QvJA/a+kdo1dWyR5sSPcstP5JzVLaPUyiFPppIG6j1WbKpQk9uz3tm2RNoOkBqTkpMXNwep6QnBN0RHyNRE9/3WSw3QVl4FgEGvb2V8d+vsPcia8THLHNpO0GSSXOPX8lkD9+EmMSdSIX+Wkhw3kV5uRIn0lQZxnr0hydlCfJ4DjfD/bDDL4GGTAuFEDdBZPOQbA4wBKADoBXEjyeBEpK/GIBoeWo2cgj3rsYdUOhgnXYKaISAXA3fqzD25ZsHPnBgnJSylTQyVgyJKXunXUlzxazAT90k6wQKXGyX6vOUalASakqkZRV5I8BhlEYyiAMoArSc4QkUfdLf+i/4eR1s5BvEC+kPPfJgHD5Em6gkJzGDCblUriPmPUFCP356KR6l8rtRLrbyVxWSUhwaIojQFlEF09qiSHisgbJM8H8Gsl+CEA/ovkPgB2AXAugC8pgRSdBBQAz9ZDaP3dPf18O0e6rVeP+qETXtWJ3BPA/gB2Qwbz2QxAF4APASxDBtd5DsATIvKWIxx6AtDfxiSYDQCWi8iKFs0xAGyU4h1kGLZeq2m2EJAcDeBzAPYGsJMuRGO1r+8CeFPHaZqIvOjuay2MJSEyC+4oBiKtW+Tl1Dkz0EPnB7GFMM4wm+TwgTTSa+jV34ro1V214iGBjbaNQm9eaiBguZTkbeZODvpratoDCvdZRPJDPT7Qz8ct4NusGuRsyDO0zvddO+9r27e48W3YBglCAhNIXklyQZ1jVCH5JMkTnGOlmOeCDfW1PtUb1fu0ucJNjib5S8cgMfdoLOh29CB18xpx/SxgCn9+ecxIDwj550pQYSyly3nz7PC/M4gzbRpxtZ9Yg4Ammd7ei8VzGMm3c9r4trunIQZx81IgeZ46cDzx1xonX54muW9IS6VAtFSbITCtZ4Seb6DfRwMYpp+jVcSOVZVgcwBbqogfnVA1Ck5VkYjNMQTATSJyoxevg0nFEhG6FVwiKtic2JiqbTYOwE0ADtC/yjomBacaM6Ku+PptPo8EsA/Jw0Rkhi2CWv8vdC7oxrysbZwgIvc1aSMU1cnyDVUFy24Oq/qsrwG4tZn50+cXhSv9HsBh2gdrx2+ZYDBGfpyM7vcGMI3k90Rkqj1TyUGNtwJwrOq3o+vwCI0AMFIb7wCwvtOriw3aNzaZZl9IzqRXlDn+B8D3zcAaZG7LISLSSXICsi0A1cBjaLbTo57QHXNsh2w/ybZqX5SC8TRiClf2sltM/KLSBWB7AHeT/CyyrQYdIrKU5DUAznH3etv06yS3FJF5Tejndu2PIoRp83yZ0t7QHKM66YHVe69V5uhUOiwFNFWM0LKnNWOkijqAbiA5X0Qe6ZYkJCer7tnK4qHfXcFRDlCw9eqLVq7srX7cgIo1U1HHJfeZOjzubAOST0RUBuvzPJLDA3WkQHKkszU6c8bAvi/Ro5pzna/rT4EKOE7tlWoEok+SP2s0VuNUuL3dPIf9X6BjJM5WqUvFctdPSYyT78cKxco9TfJFtbdSart9f1PnQUByD5Ifu4bKdR4puHe1BYhYJjr8DsljPVG1IlhZg0FeabDODpLfdEReSRDqP4bBUP28rA7m+INCWXYmuYkeu6pN8WAOKtmI/jva1lD9vD5iJ3X3X/vUjIPiqhz7658cozYSKCy6xeT5IGDs+z2f5Ckktw0WrrHqOJmWmB97vh9Bdbh7AHzZ6Z2DrVRUBD4E4CgRWdCq7as1dhTa51wAZ9eoqkPtqvHqXhzvRHkhUIFK6mL8jA986nPsDOBlZw9IUM8cAMeJyIM1+nUagItcHyQYy+cA7ONUiz0BPBNRaa3dg1XlK9SyFdyYjgXwhtqkfkyBbDv2TuoCF4td1LmjsENEukjuof1AoLoB2Rbvz4vILG+zhPRC8j8A/DCYJxujxwFMhK6crV7xmynmdagmOPoqv+q1MLDU6v0gjKgVfj/I4tAj46TI+ZEV11TVRQ671R0JjuDAbDU+K7EaW/8+HbT9QI47+o/1egpdfafnSI/rA0nTiAQZop9/nVP/+UYroaZhKp0bt5f1vlX6aYjxpSR3KOiqORAQjapya9kZrqWcZxmuHe1vb5V5Ruo9qs7wqzrjt0MlxyRdCYvO6LU+TdJzOu9Kl9Z1nojMUgdAWY+qiFCPqkbaqyRLInK+BlCLwZjZ+eTAIP9NzBOlzzJZjfVKHjzD5kdjCj8MvJFwY3JRC+YlL8j6nDJqxcbHR/R1nEr6+/U6BkP00wz9kQA+UwLwsX6RPmIUBp4Dm5RwoF8FcKu6hn8cEbMVdZv2NyNLL1RPY5ROANcCOEtEFgVRX9F+jQGwl/bZ99t2XU5V4izXgnS4MboGWUKN2KDtZWqfEvYdqmbu4JhctL0RyPByFzgiR4KhKsp844M5tPP7ReQZVcUqvZyXVJkoIr8jOSTH+1bRft+qkXZGVNq3SgCmAjheV6qOXjAAg3MErsZQPM8F8DSABwBMA/CS6pb3J9p5awAhI5UcgpCcMZkF4C4Avw2ymlQ8QevpMgCHuFXb20HLAcxX4hfDHOUxpqotz0bG3u4b7ySyxSyuBPCvTg/3EuA4kr8xhkrYf1V9xlNynu3SQJo0W96LMIq5/E8i+bCITHWSzcbVpK61/RqAn+bpjFuqW4sRd2zqKDfgoq2o9+khkpdrWH8vkiMjz3J4RAe18+826m4cABvEPHjLSX7Z77l3wblmn7XUBJRmrIsuh965OQ5eYeOwibr7qwkUw1e9WzYxlrtFbEmjlZmJ5B6N2CBm44xTeyGkQ39+o8Z9UqiRQoCODo9CSYNAkwHcAOCzTcxdl65wHyBLCLdAvS2v66r/OoAFIvJRYlBLumKNAvDvWDMvla0KLwQBqP6QHALgfY04SyAZCwC+7xAEpqJWAAwH8HUR+T91KnTVo04ERrAhUztV0pT1mg0VkTA2R/WzZ90oR/qxZ9MsichCktcBOD3wapp2cLyI3JnQc00inKT3hfcXNDBoWxjKzdquqqLOJXmTBre99uPnaQqAKSSnA7hdtZVXRGSxpyOlw2pMFRPnlisB+Ia6/9Z3jZUBLNTvK5EhL5ciy564SBljKYAPRaSrhgFXDOwRDwW4E8BXAr3VIAkvq87cn4njTA99VUR2Tdx/hurlob1k904SkfsbhVIENsrmAL6oBvweGl3fsBd2kXcZj1e1Vhxh7YQskV8x4j5dCWAnEXnb6/ZOIozScRzr2rF7FyJDZX8YqJYNJ45zv20KYDqArRMmQqyehdq/PwO4B8DTHs2rz1aNiscWEFxso0o0vU2wW/DmiMvOfz+31epVLyPpHXoM0UBaNbFj8GW9rm71yqkb41QlXVwDqVDrSCES3nQqlgTjcUckAJeMrLu5PDHHVXxBag6b2VHoPsdrpNznIQtVrnIihECNrp9DcpeEJE8Sd62j6HQ4aYQAXOfGacK4GHN4fX6rVjJygwwSRfO6ST20BmzhH+plblfnd0guDOrqckRfbsBebIRBrP0vJbYXWA6AIWESP53XZ4O+2xyu1NxoEpvDZrfcuvkbQ/LqiN3UlbBRYgyzShfq3eqN+bSSECXcBqqBnvk5A2KTe0VfPXBv4e5uYu+O9MMmYhnJT6WII1LXScEY5EH+mw1iRhkkIPanI5LRzif7bb5638ERprI5vCFvDnuzJz2gqX1U6s5PJMmIMUwlWEiWGgSfZLHUl0xhLkK/BVJT+5ztAlUxPdHsgKUAfqV1Dcas6NRnOw3ZduGOCLxjBICLReSwnHzGpoPvB+AKHZNY/KWoNuFLyJJ+L1RbMDS6bbzWA3CqxlLqTcpdUEP6Yo3dVAP7RZDB4O8JbPVTXYDTu4gJ4KK+yiKpNqTocz8F4CmSZ6rN9jUAB6ndFkM+ezSv/TYSwO9JHiEit7RSQhScihZy+Xokj3ArLSMJnmOAvtP6Uty1YsOUW/0uqKFqHZHqi3M1PpmQRPZMl5DctYH+DVcJFutXSoIYBGM9XYm9FLE6Pia5pbvnUxHIkvXhz7XU41ZlNQkzeepvQzWj5zGKAn+lDoR0VRHS2+URe6GO7bPFnFxRm5D8moq8ORHVo1bmwdv7WhdsEYPYeI3SeE8K3j1Xsy8WErbMATkTVtGkFqEtl7IPh+rnfpHYQC6DBEb3eTl4p1+4638duc7m+PBaNlijDJJDo4Uwy0vCBt5T+/ZOYsyt/YvQikAWyRFqhB2m22bvi+wvKdehQ3c5ohzDnNcsDBYGCSb4b2pIkYtDpnfEeBbXzAZv992m13TUmc7HwHgn58DY8xjECG1rlUDVhHevoJLmncjYVZ0HUOp0TrQ8L1aYKin4bwuSD+fkO5hRCuEPigka7upZT+MDI/V8LICNAWyl/uetkW2p3DSiM1edTlpLElhg6V0Ahypmaa142YzaD0Vk2KcTkUHevW1lsPJTSF4lIi9E+jYe8W25AHCny0xSz3jYdt+jcnBLTNl1Lh3TWySnakDU5sf6siOAfZFt19006K/FuC7VOEtvAoMxot9CaTDMkSbIIPSLLdai8Zbu7ccu5lMSkfm6N+Y1pW26IDAAbO9X0SnKTYvUtbpCj0agF2UHRWnkvk63qvWbm62VSRsCVamaI0UedSqruPvuyIPZpCAeOfGlryTUB7/5bP06bKt9E3GeqmYkuTfor62+C1XtlFZKECdtU7CgK5pwqz+YatciyecDuBHARIUnDEeGqh0WcKjBt/1RQc89viWkQXyxqG5FvT+PAThQRF4epEkY6pIiIvIwMgh1CDM3D9T+AE7W/hWDqG8KDrKdZWusIwJfJrkBMlBgnudvLICNlUiKif4UROQJAA87GA3c/B6u3iKJoB+uFZElyICQrfZAPhWBHRkNHqFaUKWBRVbyBvVop6eWI1tn+2IzVahrX+62f/ZbgKbVaX+cobiZRsBjQaqK2mdb6LW2Aei3OfbCM66NjshGqaKTHMODuEze1tuf1CmNvl1j81XocVtRT+ynSRtEVDItzEEw3JwzXhKM+5aRPfnd3jooHKKagCX0NWO8bu7PvoiU9zeDBER1Rg2D3aDYtjCclkAU2HP8J4M3ckXa3p3k9DqCih6lcKbuZx+eMHBFiWxmHXRiz35jI4tdkzsKL0yMl917gwI789odRfKeiCpqC8t96KfttmG0cpl2cFRvPWiDkEHMxTgsgdPyk3iwu2fHnEwvFYcbOlW3C2xGclOS22uSiKu5+h2PXnIs4uqM+HkMc0RMd6+xhZaJGMLn2EDCuUbh7lr3ZswS6lVyxvcNZon79lGv6DCSoxWSfzp7JimM3X8s+oEpfOMfadaOHXOBYWsxgwQTfkhiwrvdiDppdv11iYwmsTo+1vHsTMRNrI391e2ewrvZfpEpCQYx9WTjxF6R8PmmNaoNNBEHseuPTEByYnUsYvYG5fdrBAptjKaTHAINYFVaoGJVclCTM5il0Ny2FXGXwc4gwaTflZiwHgE3HY+NmeXLYg7QsCvHexh6z453nrVKRMX10uaolPfHSZFLc56t6Y1tTaJ57Z6zcwLQlRyJ15XDHEu60b2ugXrEcCwZXErXnal68yF0mUhY57srBoBBlru+een3apMMYivvLi5jRjlA5HZa9gx3394k34s4TlLzUQ0QqtS+HBXo7N9z/1dc3av0+5E5DOL7siwiRYz53jCkb5OLyR+1rs4IbD+G5rX7fuDUy0pizKqMv667GgSx55Gc2F2/whL+NyIJyg16seaRvFN91AdxzVc8lzjIXp/lGGTrnH7NaYZBggn8txpjN409X902nqvT8IRSoisCd/dlOtdM6WPPMZGrE6aF5Zi8ld+NwbM5qN0fNyo9gue7I2eM9oqpbu7eCU6VDCVIatxCCXKbaTlWb0lEVim89581Yjom0Y8uZOjaxQDmIUu6MAvZVthZAGaLyNKIaLaN8mUM3tKJLKtKLHHcm72ot6oTei6yHL1jsSaqtgJgGwAHici9zBKjzQTwRbULTkSWwLqjRjzpMQCXI0vobTGZchCjeQTAgST3R/aulT0dCuKjIPYSEmFV0ca7oSdi1+JfiwBcx96lZvoLgNlYM+EekCWby4s/vQhgkjo+jkeGFh+D2m9R+wDAvQCuFpF7XDypAmRbbrszVJDcGNm2yNFKNPZikyXItlsuAfBRitiVGAqOKYi1pCgRSGISyi1qI7Wy0hYrB/3xe6YtY+PuSsxjdLGajwz6/qRlTYndH8wPIxkGS0jsyfYEo+7bKei539zOLxORU3Vve7nJ8SnkEHSlxluqevSNWWbHPQBMQJbKaCNkWR4/UqZ4A8ArAJ4Vkfc8DCW25bahd0AE0Pbkttp26ameNMO0bPzFoVJnvaV6rnf2x3YO0h7aH6uY5QmWgVajUyjeZu8p6QpJrE6kVciBPFCvr65LRNxbSehWtYbaCJIJFCLz0Z3oTOekUufzVMK+5/TR8gafgtXvjwylx2323pHeQoRSY1TvHPiEfOiZ35gRaIlpOhW0S7s0Q6x6jE7EQMzIPYBNvomqXdplbWYQ84L9bQ7SeHrMu9Qu7bKuSI+hGt9IAQOPrOGAaJd2+URLjykR6WEBt9ebCQy2S7t8EhjEgqiP5ySR+7u29GiXdZE5LDp9UCRqbob6Yk3M0ZYe7bLOMshdOalEL/HXtku7rDPMoVJh1wQezxDBgyIw2C7tMlDG+eU5ObHqfmdhu7TLJ9Ew31oh86nA4BfagcF2WZelxy9zEkg81dcJ/QZT+X9xKCZIXEonHAAAAABJRU5ErkJggg==
+" alt="Rayls"></a><div class="nav-links"><a href="https://www.rayls.com/products">Products</a><a href="use-cases-overview.html" class="active">Use Cases</a><a href="https://www.rayls.com/ecosystem">Ecosystem</a><a href="https://www.rayls.com/developers">Developers</a><a href="https://docs.rayls.com">Docs</a></div><a href="https://www.rayls.com/contact" class="nav-cta">Contact Us</a></nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-breadcrumb"><a href="use-cases-overview.html">Use Cases</a> &nbsp;/&nbsp; Cross-Border Payments &amp; FX</div>
+  <p class="section-label">Use Case</p>
+  <h1>Cross-Border Payments <em>&amp; FX</em></h1>
+  <p>Yield-bearing tokenised deposits with instant cross-border stablecoin settlement, replacing correspondent banking with transparent, privacy-preserving institutional transfers.</p>
+  <div class="hero-ctas"><a href="https://www.rayls.com/contact" class="btn-primary">Request a demo &rarr;</a><a href="https://docs.rayls.com" class="btn-secondary">Technical docs</a></div>
+  <div class="pill-row"><span class="pill">Yield-Bearing Deposits</span><span class="pill">Stablecoin Settlement</span><span class="pill">Enygma Privacy Protocol</span><span class="pill">24/7 Always-On</span></div>
+</section>
+<div class="divider"></div>
+
+<!-- Problem -->
+<section class="section anim">
+  <p class="section-label">The Problem</p>
+  <h2 class="sec-h2">Idle deposits, trapped liquidity and multi-day settlement</h2>
+  <p class="sec-sub">Client deposits earn below-market rates. Cross-border payments route through 2 to 5 correspondent banks over 2 to 5 business days, with hidden fees and FX markups at every hop.</p>
+  <div class="compare">
+    <div class="compare-col legacy">
+      <h3><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#888899" stroke-width="1.5"/><line x1="6" y1="6" x2="12" y2="12" stroke="#888899" stroke-width="1.5"/><line x1="12" y1="6" x2="6" y2="12" stroke="#888899" stroke-width="1.5"/></svg> Status quo</h3>
+      <div class="compare-item">Standard deposit accounts pay well below the risk-free rate. The spread between treasury yields and deposit rates is captured entirely by the bank.</div>
+      <div class="compare-item">Each payment passes through 2 to 5 correspondent banks, each deducting $25 to $75 per hop. Beneficiaries receive less than sent, with no upfront visibility of deductions.</div>
+      <div class="compare-item">Settlement takes 2 to 5 business days across time zones, weekends and holidays. Only 35% of retail cross-border payments credit within one hour (FSB/BIS, 2025).</div>
+      <div class="compare-item">Banks pre-fund nostro accounts in every currency corridor, locking capital at minimal return. Average annual cost per bank: $1.5 million (Visa, 2024).</div>
+    </div>
+    <div class="compare-col rayls">
+      <h3><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#ECFB3E" stroke-width="1.5"/><polyline points="6,9 8,11 12,7" fill="none" stroke="#ECFB3E" stroke-width="1.5"/></svg> With Rayls</h3>
+      <div class="compare-item">Clients convert deposits into treasury-backed yield-bearing tokenised deposits, earning closer to the risk-free rate while the bank retains a management fee.</div>
+      <div class="compare-item">Direct institution-to-institution stablecoin transfer via the Rayls Public Chain. No intermediary chain. One on-ramp fee, one off-ramp fee, full end-to-end transparency.</div>
+      <div class="compare-item">Near-instant settlement, 24/7. Stablecoin transfers reach deterministic finality in seconds, irrespective of time zones or banking hours.</div>
+      <div class="compare-item">On-demand stablecoin liquidity eliminates pre-funded nostro accounts. Capital freed for productive deployment.</div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- Solution -->
+<section class="section anim">
+  <p class="section-label">The Solution</p>
+  <h2 class="sec-h2">Rayls Privacy Node and Public Chain with Enygma</h2>
+  <p class="sec-sub">Yield-bearing tokenised deposits within the bank's Privacy Node, combined with stablecoin-settled cross-border transfers via the Rayls Public Chain and Enygma privacy protocol.</p>
+  <div class="features">
+    <div class="feat"><div class="feat-icon"><svg viewBox="0 0 20 20" fill="none"><path d="M11 1L3 10h5l-1 9 8-10h-5l1-8z" stroke="#ECFB3E" stroke-width="1.5" stroke-linejoin="round"/></svg></div><h3>Yield-Bearing Tokenised Deposits</h3><p>Clients convert standard deposits into treasury-backed tokenised deposits within the Privacy Node, earning a share of the government securities yield while the bank retains a management fee.</p></div>
+    <div class="feat"><div class="feat-icon"><svg viewBox="0 0 20 20" fill="none"><polyline points="5,10 8,13 15,6" stroke="#B49AFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="2" y="2" width="16" height="16" rx="3" stroke="#B49AFF" stroke-width="1.5"/></svg></div><h3>Atomic On-Ramp via HTLC</h3><p>For cross-border payments, the bank swaps tokenised deposits with a local LP for USD stablecoin via a Hash Time-Locked Contract. Either both legs complete or neither does.</p></div>
+    <div class="feat"><div class="feat-icon"><svg viewBox="0 0 20 20" fill="none"><path d="M10 2v16M2 10h16" stroke="#ECFB3E" stroke-width="1.5"/><circle cx="10" cy="10" r="8" stroke="#ECFB3E" stroke-width="1.5"/></svg></div><h3>Private Cross-Border Stablecoin Transfer</h3><p>Enygma on the Rayls Public Chain enables institutions to transfer USD stablecoins cross-border in seconds, with amounts and counterparties cryptographically shielded from uninvolved parties.</p></div>
+    <div class="feat"><div class="feat-icon"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#B49AFF" stroke-width="1.5"/><circle cx="10" cy="10" r="3" stroke="#B49AFF" stroke-width="1.5"/><line x1="10" y1="3" x2="10" y2="1" stroke="#B49AFF" stroke-width="1.5"/><line x1="10" y1="19" x2="10" y2="17" stroke="#B49AFF" stroke-width="1.5"/><line x1="3" y1="10" x2="1" y2="10" stroke="#B49AFF" stroke-width="1.5"/><line x1="19" y1="10" x2="17" y2="10" stroke="#B49AFF" stroke-width="1.5"/></svg></div><h3>Auditable Compliance and Regulator Access</h3><p>The Enygma dApp operator can grant regulators auditor view keys or read-only access under local law. Transfers are fully traceable on-chain while private from uninvolved participants.</p></div>
+  </div>
+  <div style="margin-top:40px"><a href="https://www.rayls.com/products" class="btn-secondary" style="border-color:rgba(236,251,62,0.3);color:var(--yellow)">Explore Rayls products &rarr;</a></div>
+</section>
+<div class="divider"></div>
+
+<!-- Operational Workflow -->
+<section class="section anim">
+  <p class="section-label">Operational Workflow</p>
+  <h2 class="sec-h2">From yield-bearing deposit to cross-border settlement</h2>
+  <p class="sec-sub">Two stages: yield-bearing tokenised deposits within the Privacy Node, and cross-border settlement via stablecoin on the Rayls Public Chain.</p>
+  <div class="wf-outer"><div class="wf-flow">
+
+    <!-- STAGE 1 -->
+    <div class="wf-phase-label">Stage 1 &mdash; Yield-Bearing Tokenised Deposit (Privacy Node)</div>
+    <div class="wf-pn">
+      <div class="wf-env-title">Issuing Bank &middot; Privacy Node</div>
+      <div class="wf-step"><div class="wf-step-num">1</div><div class="wf-step-nodes"><div class="wf-node"><strong>Client requests conversion</strong> of standard tokenised deposits into yield-bearing tokenised deposits within the bank's Privacy Node.</div></div></div>
+      <div class="wf-down-arr">&darr;</div>
+      <div class="wf-step"><div class="wf-step-num">2</div><div class="wf-step-nodes"><div class="wf-node"><strong>Bank allocates deposits to a segregated treasury pool,</strong> purchasing short-term government securities. The pool collateralises the yield-bearing tokenised deposits on a 1:1 basis.</div></div></div>
+      <div class="wf-down-arr">&darr;</div>
+      <div class="wf-step"><div class="wf-step-num">3</div><div class="wf-step-nodes"><div class="wf-node"><strong>Client earns treasury yield,</strong> net of the bank's management fee. The deposit remains a bank liability, redeemable on demand.</div></div></div>
+    </div>
+
+    <!-- Stage break -->
+    <div class="wf-stage-break">
+      <div class="wf-stage-line"></div>
+      <div class="wf-stage-tag">Client initiates cross-border payment</div>
+      <div class="wf-stage-line"></div>
+    </div>
+
+    <!-- STAGE 2 -->
+    <div class="wf-phase-label">Stage 2a &mdash; Local Fiat On-Ramp (Origin)</div>
+    <div class="wf-pn">
+      <div class="wf-env-title">Institution A &middot; Privacy Node</div>
+      <div class="wf-step"><div class="wf-step-num">4</div><div class="wf-step-nodes"><div class="wf-node"><strong>Institution A sends a private RFQ</strong> via Enygma to a local Liquidity Provider, requesting a swap of local-currency tokenised deposits for USD stablecoin at an agreed rate and fee.</div></div></div>
+      <div class="wf-down-arr">&darr;</div>
+      <div class="wf-step"><div class="wf-step-num">5</div><div class="wf-step-nodes"><div class="wf-node"><strong>Atomic HTLC swap executes.</strong> Institution A locks tokenised deposits in its Privacy Node; the LP locks equivalent USD stablecoin on the Rayls Public Chain. A cryptographic hash-lock ensures both legs settle atomically.</div></div></div>
+    </div>
+
+    <!-- Bridge -->
+    <div class="wf-bridge-mid"><div class="wf-down-arr">&darr;</div><div class="wf-bridge-dot"><span>Cross-<br>Border</span></div><div class="wf-down-arr">&darr;</div></div>
+
+    <!-- Cross-border transfer -->
+    <div class="wf-phase-label">Stage 2b &mdash; Cross-Border Stablecoin Transfer</div>
+    <div class="wf-pc">
+      <div class="wf-env-title">Rayls Public Chain</div>
+      <div class="wf-step"><div class="wf-step-num">6</div><div class="wf-step-nodes"><div class="wf-node"><strong>Institution A transfers USD stablecoin</strong> to Institution B via Enygma on the Rayls Public Chain. Settlement in seconds with full counterparty privacy.</div></div></div>
+      <div class="wf-down-arr">&darr;</div>
+      <div class="wf-step"><div class="wf-step-num">7</div><div class="wf-step-nodes"><div class="wf-node"><strong>Institution B receives the USD stablecoin</strong> within Enygma and withdraws to its treasury account on the Rayls Public Chain.</div></div></div>
+    </div>
+    <div class="wf-down-arr">&darr;</div>
+
+    <!-- Off-ramp -->
+    <div class="wf-phase-label">Stage 2c &mdash; Local Fiat Off-Ramp (Destination)</div>
+    <div class="wf-pn">
+      <div class="wf-env-title">Institution B &middot; Privacy Node</div>
+      <div class="wf-step"><div class="wf-step-num">8</div><div class="wf-step-nodes"><div class="wf-node"><strong>Institution B sends USD stablecoin to a local LP.</strong> The LP settles via a mirror HTLC swap (USD stablecoin for local-currency tokenised deposits), or via domestic fiat rails as an early-phase fallback.</div></div></div>
+      <div class="wf-down-arr">&darr;</div>
+      <div class="wf-step"><div class="wf-step-num">9</div><div class="wf-step-nodes"><div class="wf-node"><strong>Institution B credits the end beneficiary</strong> in local currency. Total elapsed time: minutes, not days.</div></div></div>
+    </div>
+    <div class="wf-down-arr">&darr;</div>
+
+    <!-- Governance -->
+    <div class="wf-phase-label">Network Governance &amp; Scalability</div>
+    <div class="wf-gov">
+      <div class="wf-env-title">Governance Layer</div>
+      <div class="wf-step"><div class="wf-step-num">10</div><div class="wf-step-nodes"><div class="wf-node"><strong>New institutions join</strong> the Enygma stablecoin payments dApp via whitelisting. The network scales from bilateral corridors to a many-to-many settlement mesh.</div></div></div>
+      <div class="wf-down-arr">&darr;</div>
+      <div class="wf-step"><div class="wf-step-num">11</div><div class="wf-step-nodes"><div class="wf-node"><strong>Regulators request view access.</strong> The dApp operator grants auditor view keys under local law, providing full auditability without compromising participant privacy.</div></div></div>
+    </div>
+
+    <!-- Result -->
+    <div class="wf-result"><div class="wf-result-label">Result</div><div class="wf-result-text">Clients earn treasury-backed yield on idle deposits, then settle cross-border payments in minutes via stablecoin rails with transparent FX, no intermediary chain and full regulatory auditability. Starts with one LP in one market, scales to a global settlement network.</div></div>
+
+  </div></div>
+</section>
+<div class="divider"></div>
+
+<!-- Business Outcomes -->
+<section class="section anim">
+  <p class="section-label">Business Outcomes</p>
+  <h2 class="sec-h2">Measurable impact for institutions</h2>
+  <p class="sec-sub">Treasury-backed yield on idle deposits. Near-instant cross-border settlement replacing multi-day correspondent banking chains.</p>
+  <div class="stats">
+    <div class="stat-card"><div class="stat-val">T+0</div><div class="stat-lbl">Near-Instant Settlement</div><div class="stat-desc">Stablecoin transfers settle in seconds, replacing the 2 to 5 business days typical of correspondent banking (FSB, 2024)</div></div>
+    <div class="stat-card"><div class="stat-val">80%+</div><div class="stat-lbl">Fee Reduction</div><div class="stat-desc">Eliminates $25-$75 per-hop intermediary fees and hidden FX markups that comprise 60-97% of total cost (FSB, 2024)</div></div>
+    <div class="stat-card"><div class="stat-val">$1.5M</div><div class="stat-lbl">Annual Nostro Savings</div><div class="stat-desc">Average annual cost per bank of maintaining pre-funded nostro accounts, freed through on-demand stablecoin liquidity (Visa, 2024)</div></div>
+    <div class="stat-card"><div class="stat-val">24/7</div><div class="stat-lbl">Always-On Settlement</div><div class="stat-desc">No business-hour restrictions or time-zone dependencies. Settlement operates continuously, eliminating weekend and holiday queuing.</div></div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- Video Demo -->
+<section class="section anim">
+  <p class="section-label">Solution Demo</p>
+  <h2 class="sec-h2">See it in action</h2>
+  <p class="sec-sub">A live walkthrough of the cross-border stablecoin payment workflow using the Rayls Public Chain with Enygma privacy.</p>
+  <div class="video-wrap"><a href="https://www.youtube.com/watch?v=fk_K0cc0jJw" target="_blank" rel="noopener" class="video-thumb"><img src="https://img.youtube.com/vi/fk_K0cc0jJw/maxresdefault.jpg" alt="Rayls Cross-Border Payments Demo" loading="lazy" onerror="this.src='https://img.youtube.com/vi/fk_K0cc0jJw/hqdefault.jpg'"><div class="video-play"><svg viewBox="0 0 68 48"><path d="M66.5 7.7c-.8-2.9-2.5-5.4-5.4-6.2C55.8.1 34 0 34 0S12.2.1 6.9 1.6c-2.8.7-4.6 3.2-5.4 6.1C.1 13 0 24 0 24s0 11 1.5 16.3c.8 2.9 2.5 5.4 5.4 6.2C12.2 48 34 48 34 48s21.8 0 27.1-1.5c2.8-.7 4.6-3.2 5.4-6.1C68 35 68 24 68 24s0-11-1.5-16.3z" fill="#FF0000"/><path d="M45 24L27 14v20" fill="#fff"/></svg></div></a></div>
+</section>
+<div class="divider"></div>
+
+<!-- Case Studies -->
+<section class="section anim">
+  <p class="section-label">Case Studies</p>
+  <h2 class="sec-h2">Production-proven at scale</h2>
+  <div class="cs-grid">
+    <a href="https://www.rayls.com/case-studies/nuclea" class="cs-card"><span class="cs-badge">FMI Network</span><h3>Nuclea: Scaling Receivable Tokenisation in Brazil</h3><p>The largest payment FMI in the Southern Hemisphere, supporting 150+ financial institutions. Uses Rayls to tokenise and settle over 10,000 receivables per week across a governed Private Network.</p><span class="cs-link">Read the case study &rarr;</span></a>
+    <a href="https://www.rayls.com/case-studies/drex" class="cs-card"><span class="cs-badge">CBDC Network</span><h3>Drex: Brazil's CBDC Programme</h3><p>Rayls powers the privacy and interoperability layer for Brazil's central bank digital currency programme, enabling compliant multi-party settlement across multiple Privacy Nodes.</p><span class="cs-link">Read the case study &rarr;</span></a>
+  </div>
+</section>
+<div class="divider"></div>
+
+
+<div class="divider"></div>
+
+<!-- Related Use Cases -->
+<section class="section anim" style="padding-bottom:60px">
+  <p class="section-label">Explore Other Use Cases</p>
+  <h2 class="sec-h2">Related solutions</h2>
+  <p class="sec-sub">See how Rayls supports the full spectrum of institutional blockchain workflows.</p>
+  <div class="rnav-grid">
+    <a href="use-case-tokenised-deposits.html" class="rnav-card" style="--accent:#ECFB3E">
+      <span class="rnav-num" style="color:#ECFB3E;opacity:0.3">01</span>
+      <h3>Tokenised Deposits</h3>
+      <p>Programmable internal settlement</p>
+      <span class="rnav-link" style="color:#ECFB3E">Explore &rarr;</span>
+    </a>
+    <a href="use-case-yield-bearing-vaults.html" class="rnav-card" style="--accent:#B49AFF">
+      <span class="rnav-num" style="color:#B49AFF;opacity:0.3">02</span>
+      <h3>Yield-Bearing Asset Vaults</h3>
+      <p>Global distribution of institutional yield</p>
+      <span class="rnav-link" style="color:#B49AFF">Explore &rarr;</span>
+    </a>
+    <a href="use-case-private-trading.html" class="rnav-card" style="--accent:#ECFB3E">
+      <span class="rnav-num" style="color:#ECFB3E;opacity:0.3">04</span>
+      <h3>Private Tokenised Asset Trading</h3>
+      <p>Multi-party atomic settlement</p>
+      <span class="rnav-link" style="color:#ECFB3E">Explore &rarr;</span>
+    </a>
+    <a href="use-case-tokenised-treasury.html" class="rnav-card" style="--accent:#B49AFF">
+      <span class="rnav-num" style="color:#B49AFF;opacity:0.3">05</span>
+      <h3>Tokenised Treasury Management</h3>
+      <p>Real-time treasury operations on a Privacy Node</p>
+      <span class="rnav-link" style="color:#B49AFF">Explore &rarr;</span>
+    </a>
+  </div>
+  <div style="margin-top:32px"><a href="use-cases-overview.html" class="btn-secondary" style="border-color:rgba(236,251,62,0.3);color:var(--yellow)">&larr; Back to all use cases</a></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Bottom CTA -->
+<section class="bottom-cta">
+  <h2>Explore how Rayls can transform your cross-border payment operations</h2>
+  <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap"><a href="https://www.rayls.com/contact" class="btn-primary">Request a demo &rarr;</a><a href="https://docs.rayls.com" class="btn-secondary">Technical docs</a></div>
+</section>
+<footer class="footer"><p>&copy; 2026 Rayls. All rights reserved. &nbsp;|&nbsp; <a href="https://www.rayls.com/privacy-policy">Privacy Policy</a></p></footer>
+<script>
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.1});
+document.querySelectorAll('.anim').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
